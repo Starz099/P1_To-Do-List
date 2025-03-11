@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="style1.css" rel = "stylesheet">
+		<link href="https://fonts.cdnfonts.com/css/minecraft-3" rel="stylesheet">
+		<script src="script.js"></script>
+		<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+		<title>To-Do-List App</title>
+	</head>
+	<body>
+		<header id = "top">
+			<h1>To - Do - List</h1>
+		</header>
+		
+		<hr>
+	
+	<div class="app">
+		<div class="frame">
+			<button class="add" onclick='showHide()'>
+				ADD TASK
+			</button>
+			<div class="taskbox">
+				<input type="text" class = "inp" placeholder="Enter your task here :">
+				<button class="confirm" onclick="savetask()">+</button>
+			</div>
+			
+			<ul id="listi"></ul>
+			
+		</div>
+		
+	</div>
+	
+	<div class="footer">
+		<i class='bx bx-copyright' style="color: white;"></i> 
+		
+		<div class="txt">Starz, 2025</div>
+	</div>
+	
+	<script src = "script.js"></script>
+</body>
+</html>
