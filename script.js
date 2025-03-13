@@ -25,35 +25,34 @@ function savetask() {
     return;
     
     const newElem = document.createElement('li');
-    // const textPart = newElem.createElement('div');
-    // const removePart = newElem.createElement('div');
 
     newElem.textContent = `${temp}`;
 
     newElem.classList.add('item'); // adding css to it.
 
-    document.getElementById('listi').prepend(newElem);
+    document.getElementById('listi').prepend(newElem); // add the new task to the list
 
     txt.value = "";
-
-    // showHide();
 }
 
-if(document.querySelector('.inp'))
 document.querySelector('.inp').addEventListener('keydown', function (e) {
     if(e.key === "Enter" && document.querySelector('.inp').value != "") {
         savetask();
     }
 });
 
-document.getElementById('listi').addEventListener('click', (e) => {
-    if (e.target.classList.contains('item')) {
-        if(e.target.style.textDecoration != "line-through") {
-            e.target.style.textDecoration = "line-through";
-            e.target.style.backgroundColor = "#3c4458";
+document.getElementById("listi").addEventListener('click', (event) => {
+    if (event.target.tagName === "LI") {
+        let task = event.target;
+        
+        if (task.classList.contains("completed")) {
+            // Task is completed → Mark it as pending again (move to top)
+            task.classList.remove("completed");
+            task.parentNode.prepend(task); // Move to the top
         } else {
-            e.target.style.textDecoration = "none";
-            e.target.style.backgroundColor = "#3e5c76";
+            // Task is pending → Mark it as completed (move to bottom)
+            task.classList.add("completed");
+            task.parentNode.appendChild(task); // Move to the bottom
         }
     }
 });

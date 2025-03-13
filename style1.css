@@ -110,10 +110,19 @@
                 cursor: pointer;
             }
             /* background-color: #3c4458; */
+
+            .completed {
+                text-decoration: line-through;
+                background: #8a8a8a !important; /*Grey background for completed tasks */
+            }
+
+            .dragging {
+                opacity: 0.5;
+                background-color: #f0f0f0;
+                /* Optional: Highlight dragged item */
+            }
         }
     }
-
-
 }
 
 .hidden {
