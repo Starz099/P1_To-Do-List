@@ -118,7 +118,7 @@
 
             .dragging {
                 opacity: 0.5;
-                background-color: #f0f0f0;
+                background-color: #236495;
                 /* Optional: Highlight dragged item */
             }
         }
