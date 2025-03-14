@@ -91,6 +91,7 @@
             list-style-type: none;
             width: 20vw;
             background-color: #1d2d44;
+
             .item {
                 font-weight: 800;
                 word-wrap:break-word;
@@ -102,14 +103,41 @@
                 margin: 1vw auto;
                 display: flex;
                 align-items: center;
-                justify-content: center;
-                text-decoration: none;                
+                justify-content: space-between;
+                text-decoration: none;   
+                position: relative;
+                padding: 0.2vw 0.6vw;
+
+                .options {
+                    display: none;
+                    background: none;
+                    border: none;
+                }
+                
+                .edit-btn, .delete-btn {
+                    background: none;
+                    border: none;
+                    cursor: pointer;
+                }
+
+                .edit-input {
+                    width: 80%;
+                    font-size: medium;
+                    border: none;
+                    border-bottom: #fff solid 1px;
+                    border-radius: 4px;
+                    outline: none;
+                    background: none;
+                }
             }
 
             .item:hover {
                 cursor: pointer;
+                
+                .options {
+                    display: flex;
+                }
             }
-            /* background-color: #3c4458; */
 
             .completed {
                 text-decoration: line-through;
