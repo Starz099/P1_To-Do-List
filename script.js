@@ -21,20 +21,92 @@ function savetask() {
 
     const temp = txt.value;
 
-    if(txt.value == "")
+    if(temp.trim() === "")
     return;
     
-    const newElem = document.createElement('li');
+    const newElem = createTaskElement(temp);
 
-    newElem.textContent = `${temp}`;
     newElem.setAttribute('draggable', 'true');
-
-    newElem.classList.add('item'); // adding css to it.
 
     document.getElementById('listi').prepend(newElem); // add the new task to the list
 
     txt.value = "";
 }
+
+function createTaskElement(taskText) {
+    let li = document.createElement("li");
+    li.classList.add("item");
+    li.draggable = true;
+    li.textContent = taskText;
+
+    //options bar
+    let optionBar = document.createElement("div");
+    optionBar.classList.add("options");
+
+    // Edit button
+    let editBtn = document.createElement("button");
+    editBtn.classList.add("edit-btn");
+    editBtn.textContent = "✏️";
+    editBtn.setAttribute('title', 'edit');
+
+    // Delete button
+    let deleteBtn = document.createElement("button");
+    deleteBtn.classList.add("delete-btn");
+    deleteBtn.textContent = "❌";
+    deleteBtn.setAttribute('title', 'delete');
+
+    // Append elements
+    li.appendChild(optionBar);
+    optionBar.appendChild(editBtn);
+    optionBar.appendChild(deleteBtn);
+
+    return li;
+}
+
+//options functionality
+document.getElementById('listi').addEventListener('click', function (event) {
+    let target = event.target;
+
+    // edit button
+    if(target.classList.contains("edit-btn")) {
+        let Task = target.parentElement.parentElement; // The <li> element
+        let taskText = Task.firstChild; // The text node
+
+        // Create an input field
+        let input = document.createElement("input");
+        input.type = "text";
+        input.value = taskText.textContent.trim();
+        input.classList.add("edit-input"); // For styling
+
+        // Replace text with input field
+        Task.replaceChild(input, taskText);
+        input.focus(); // Auto-focus the input
+
+        // Handle saving on blur (click outside) or Enter key
+        function saveTask() {
+            let newText = input.value.trim();
+            if (newText !== "") {
+                let newTextNode = document.createTextNode(newText);
+                Task.replaceChild(newTextNode, input); // Replace input with updated text
+            } else {
+                Task.replaceChild(taskText, input); // Restore old text if empty
+            }
+        }
+
+        input.addEventListener("blur", saveTask); // Save when clicking outside
+        input.addEventListener("keydown", function (e) {
+            if (e.key === "Enter") {
+                saveTask();
+            }
+        });
+    }
+
+    // delete button
+    if(target.classList.contains("delete-btn")) {
+        let ops = target.parentElement;
+        ops.parentElement.remove();
+    }
+});
 
 document.addEventListener("keydown", function (e) {
     let inputField = document.querySelector('.inp'); // only check if inputfield is active in DOM.
@@ -59,6 +131,7 @@ document.getElementById("listi").addEventListener('click', (event) => {
     }
 });
 
+// drag and shuffle list logic
 document.addEventListener("DOMContentLoaded", function () {
     const list = document.getElementById("listi");
 
@@ -97,15 +170,19 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // check if the position should be changed or not
-        if (target && target !== draggedItem) {
-            const rect = target.getBoundingClientRect(); //retrieves the size and position of the target element. returns an object
-            const offset = event.clientY - rect.top; // event.clientY -> Mouse’s Y position when dropped.
+        if((draggedItem.classList.contains('completed') && target.classList.contains('completed')) || (!draggedItem.classList.contains('completed') && !target.classList.contains('completed')))
+        {
+            if (target && target !== draggedItem) {
+                const rect = target.getBoundingClientRect(); //retrieves the size and position of the target element. returns an object
+                const offset = event.clientY - rect.top; // event.clientY -> Mouse’s Y position when dropped.
 
-            if (offset > rect.height / 2) {
-                target.parentNode.insertBefore(draggedItem, target.nextSibling);
-            } else {
-                target.parentNode.insertBefore(draggedItem, target);
-            } // If dropped in the lower half of a task, it goes below. Otherwise, it goes above.
+                if (offset > rect.height / 2) {
+                    target.parentNode.insertBefore(draggedItem, target.nextSibling);
+                } else {
+                    target.parentNode.insertBefore(draggedItem, target);
+                } // If dropped in the lower half of a task, it goes below. Otherwise, it goes above.
+            }
         }
+        
     });
 });
